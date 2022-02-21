@@ -1,0 +1,286 @@
+﻿@model CRUDOperationUsingJqueryAjax.Models.Contact
+@{
+    ViewData["Title"] = "Contacts";
+}
+<div class="row">
+    <div class="container">
+        <div class="p-3 shadow">
+            Sepideh
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="container">
+        <div class="p-3 shadow">
+            <div class="text-center">
+                <h4 class="text-danger" id="message"></h4>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-borderless" id="tblContacts">
+                    <thead>
+                        <tr class="bg-light">
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="text-center" id="spinner">
+                <div class="spinner-border " role="status">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="container">
+        <div class="p-3 shadow">
+            <h3 class="text-secondary fw-light" id="title">Contact form</h3>
+            <div class="text-center text-danger" id="ErrorMessage"></div>
+            <hr />
+            <div class="row">
+                <input type="hidden" id="txtId" value="0" name="Id" />
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="txtFirstName">First Name</label>
+                        <input type="text" class="form-control" id="txtFirstName" name="FirstName" placeholder="First Name" />
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="txtLastName">Last Name</label>
+                        <input type="text" class="form-control" id="txtLastName" name="LastName" placeholder="Last Name" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="txtPhoneNumber">phone Number</label>
+                        <input type="text" class="form-control" id="txtPhoneNumber" name="PhoneNumber" placeholder="Phone Number" />
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="txtEmail">Email</label>
+                        <input type="email" class="form-control" id="txtEmail" name="Email" placeholder="Email" />
+
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="container">
+                    <button class="btn btn-sm btn-primary shadow" id="SaveUpdate" onclick="Save()">
+                        Save
+                        <span class="spinner-border spinner-border-sm" id="spinSaveButton" role="status" aria-hidden="true" style="display:none"></span>
+                    </button>
+
+                    <div class="vr"></div>
+                    <button class="btn btn-sm btn-secondary shadow" id="Save" onclick="Cancle()">Cancle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <partial name="_RateToApp" />
+</div>
+@section Scripts
+{
+    <script src="~/js/Rating.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadContact();
+        });
+        function Rate(msg, ratingValue) {
+            $('#rateMsg').fadeIn(200);
+            $('#rateMsg').text(msg);
+            $("#txtRate").val(ratingValue);
+        }
+
+        function feedBack() {
+            var FeedBack = {
+                Rate: $("#txtRate").val(),
+                Comment: $("txtComment").val()
+            };
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: '/Contacts/FeedBack',
+                data: JSON.stringify(FeedBack),
+                dataType: 'JSON',
+                contentType: 'application/json; charset:utf-8',
+                success: function (response) {
+                    if (response.success) {
+                        $("#Message").text(response.data);
+                        setTimeout(function () {
+                            $('#Message').fadeOut(1000);
+                        }, 1000);
+                    }
+                },
+                error: function () {
+                    console.log("There is an error");
+                }
+            });
+        }
+
+        function Save() {
+            $('#spinner').show();
+            $('#spinSaveButton').show();
+            $('#SaveUpdate').prop('disabled', true);
+            $()
+            var errorMessage = "";
+            var Contact = {
+                Id: $("#txtId").val(),
+                FirstName: $("#txtFirstName").val(),
+                LastName: $("#txtLastName").val(),
+                PhoneNumber: $("#txtPhoneNumber").val(),
+                Email: $("#txtEmail").val()
+            }
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: '/Contacts/AddUpdate',
+                data: JSON.stringify(Contact),
+                dataType: 'JSON',
+                contentType: 'application/json; charset:utf-8',
+                success: function (response) {
+                    if (response.success) {
+                        LoadContact();
+                        Cancle();
+                        $('#myModalContent').html(response.data);
+                        $('.modal').modal('show');
+                        $('#spinner').hide();
+                        $('#spinSaveButton').hide();
+                        $('#SaveUpdate').prop('disabled', false);
+                    }
+                    else {
+                        $('#spinner').hide();
+                        $.each(response.errorList, function (index, value) {
+                            errorMessage += value + '<br/>';
+                        });
+                        $('#ErrorMessage').empty();
+                        $('#ErrorMessage').fadeIn(2000);
+                        $('#ErrorMessage').append(errorMessage);
+                        setTimeout(function () {
+                            $('#ErrorMessage').fadeOut(2000);
+                            $('#spinSaveButton').hide();
+                            $('#SaveUpdate').prop('disabled', false);
+                        }, 2000)
+
+                    }
+                },
+                error: function () {
+                    console.log("There is an error");
+                }
+            });
+        }
+
+
+        function Cancle() {
+            $('#title').text('Contact form');
+            $('#txtFirstName').val('');
+            $('#txtId').val("0");
+            $('#txtLastName').val('');
+            $('#txtPhoneNumber').val('');
+            $('#txtEmail').val('');
+            $('#SaveUpdate').val('Save');
+        }
+
+
+        function EditContact(id) {
+            $.ajax({
+                async: true,
+                type: "GET",
+                url: '/Contacts/EditContact',
+                data: { contactId: id },
+                dataType: 'JSON',
+                contentType: 'application/json; charset:utf-8',
+                success: function (response) {
+                    $('#txtId').val(id);
+                    $('#txtFirstName').val(response.data.firstName);
+                    $('#txtLastName').val(response.data.lastName);
+                    $('#txtPhoneNumber').val(response.data.phoneNumber);
+                    $('#txtEmail').val(response.data.email);
+                    $('#SaveUpdate').val('Edit');
+                    $('#title').text('Edit Form : ' + response.data.firstName + " " + response.data.lastName);
+
+                },
+                error: function () {
+                    console.log("There is an error");
+                }
+            });
+        }
+
+
+        function DeleteContact(id) {
+            $('#spinner').show();
+            $.ajax({
+                async: true,
+                type: "GET",
+                url: '/Contacts/DeleteContact',
+                data: { contactId: id },
+                dataType: 'JSON',
+                contentType: 'application/json; charset:utf-8',
+                success: function (response) {
+                    $('#spinner').hide();
+                    LoadContact();
+                    $("#message").text(response.data.firstName + " " + response.data.lastName + " " + "has been deleted successfully.");
+                    setTimeout(function () {
+                        $('#message').fadeOut(1000);
+                    }, 1000)
+                },
+                error: function () {
+                    console.log("There is an error");
+                }
+            });
+        }
+
+        function LoadContact() {
+            $('#spinner').show();
+            var bindContact = "";
+            $.ajax({
+                async: true,
+                type: 'GET',
+                url: '/Contacts/Load',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    if (response.success) {
+                        console.log(response.data);
+                        $.each(response.data,
+                            function (index, value) {
+                                bindContact += '<tbody><tr><td>' + value.firstName + '</td><td>' +
+                                    value.lastName +
+                                    '</td><td>' +
+                                    value.phoneNumber +
+                                    '</td><td>' +
+                                    value.email +
+                                    '</td><td>' +
+                                    '<input type="button" value="Edit" class="btn btn-warning  btn-sm  shadow" onclick="EditContact(' + value.id + ')" /> <input type="button" value="Delete" class="btn btn-sm btn-danger shadow" onclick="DeleteContact(' + value.id + ')" />' +
+                                    '</td></tr></tbody>'
+                            });
+                        $("#tblContacts").find('tr:gt(0)').remove();
+                        $("#tblContacts").append(bindContact);
+                    }
+                },
+                complete: function () {
+                    $('#spinner').hide();
+                },
+                error: function () {
+                    console.log("There is an error");
+                }
+            })
+        }
+
+
+    </script>
+
+}

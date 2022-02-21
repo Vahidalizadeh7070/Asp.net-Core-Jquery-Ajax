@@ -1,0 +1,45 @@
+﻿<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <input id="txtRate" value="1" type="hidden"/>
+            <div class="modal-body">
+                <div class="text-center text-danger" id="Message"></div>
+                <div class='rating-stars text-center'>
+                    <ul id='stars'>
+                        <li class='star' title='Poor' data-value='1'>
+                            <i class='fa fa-star fa-fw'></i>
+                        </li>
+                        <li class='star' title='Fair' data-value='2'>
+                            <i class='fa fa-star fa-fw'></i>
+                        </li>
+                        <li class='star' title='Good' data-value='3'>
+                            <i class='fa fa-star fa-fw'></i>
+                        </li>
+                        <li class='star' title='Excellent' data-value='4'>
+                            <i class='fa fa-star fa-fw'></i>
+                        </li>
+                        <li class='star' title='WOW!!!' data-value='5'>
+                            <i class='fa fa-star fa-fw'></i>
+                        </li>
+                    </ul>
+                </div>
+                <div class="text-center" id="rateMsg"></div>
+                <hr />
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="txtComment" style="height: 100px"></textarea>
+                    <label for="txtComment">Comments</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary shadow" data-bs-dismiss="modal">Close</button>
+                <div class="vr"></div>
+                <button type="button" class="btn btn-info shadow" onclick="feedBack()">Save your feedback</button>
+            </div>
+        </div>
+    </div>
+</div>
