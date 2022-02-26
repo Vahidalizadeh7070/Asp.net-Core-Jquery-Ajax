@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace CRUDOperationUsingJqueryAjax.Models
 {
+    // Contact class
+    // This class is a concrete object
     public class Contact
     {
         [Key]

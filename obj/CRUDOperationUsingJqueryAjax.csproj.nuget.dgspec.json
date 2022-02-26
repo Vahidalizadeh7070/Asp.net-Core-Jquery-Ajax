@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Vahid\\Source\\Repos\\Asp.net-Core-Jquery-Ajax\\CRUDOperationUsingJqueryAjax.csproj": {}
+    "C:\\Users\\Vahid\\source\\repos\\Asp.net-Core-Jquery-Ajax\\CRUDOperationUsingJqueryAjax.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Vahid\\Source\\Repos\\Asp.net-Core-Jquery-Ajax\\CRUDOperationUsingJqueryAjax.csproj": {
+    "C:\\Users\\Vahid\\source\\repos\\Asp.net-Core-Jquery-Ajax\\CRUDOperationUsingJqueryAjax.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Vahid\\Source\\Repos\\Asp.net-Core-Jquery-Ajax\\CRUDOperationUsingJqueryAjax.csproj",
+        "projectUniqueName": "C:\\Users\\Vahid\\source\\repos\\Asp.net-Core-Jquery-Ajax\\CRUDOperationUsingJqueryAjax.csproj",
         "projectName": "CRUDOperationUsingJqueryAjax",
-        "projectPath": "C:\\Users\\Vahid\\Source\\Repos\\Asp.net-Core-Jquery-Ajax\\CRUDOperationUsingJqueryAjax.csproj",
+        "projectPath": "C:\\Users\\Vahid\\source\\repos\\Asp.net-Core-Jquery-Ajax\\CRUDOperationUsingJqueryAjax.csproj",
         "packagesPath": "C:\\Users\\Vahid\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Vahid\\Source\\Repos\\Asp.net-Core-Jquery-Ajax\\obj\\",
+        "outputPath": "C:\\Users\\Vahid\\source\\repos\\Asp.net-Core-Jquery-Ajax\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Vahid\\AppData\\Roaming\\NuGet\\NuGet.Config",
